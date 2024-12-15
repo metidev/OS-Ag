@@ -1,30 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="public/css/style.css">
-    <title>FCFS Scheduling</title>
-</head>
-<body>
-<h1>FCFS Scheduling Input</h1>
-<div class="input-container">
-    <form action="app/Controllers/SchedulingController.php" method="POST">
-        <div class="algorithm-selection">
-            <label for="algorithm">Algorithm</label>
-            <select id="algorithm" name="algorithm">
-                <option value="FCFS">First Come First Serve (FCFS)</option>
-            </select>
-        </div>
-        <div class="arrival-burst-times">
-            <label for="arrival_times">Arrival Times (e.g. 0 2 4 6 8)</label>
-            <input type="text" id="arrival_times" name="arrival_time" required placeholder="e.g. 0 2 4 6 8">
-            <label for="burst_times">Burst Times (e.g. 2 4 6 8 10)</label>
-            <input type="text" id="burst_times" name="burst_time" required placeholder="e.g. 2 4 6 8 10">
-        </div>
-        <button type="submit">Solve</button>
-    </form>
-</div>
-</body>
-<script src="public/js/main.js"></script>
-</html>
+<?php
+
+require_once './app/Controllers/FCFSController.php';
+require_once './app/Controllers/SJFController.php';
+
+$action = $_GET['action'] ?? 'input';
+
+switch ($action) {
+    case 'input':
+        require_once './app/Views/input.php';
+        break;
+
+    case 'calculate':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $algorithm = $_POST['algorithm'] ?? '';
+
+            switch ($algorithm) {
+                case 'SJF':
+                    $controller = new SJFController();
+                    $controller->sjf();
+                    break;
+
+                case 'FCFS':
+                    $controller = new FCFSController();
+                    $controller->fcfs();
+                    break;
+
+                default:
+                    echo "Invalid Algorithm Selected.";
+                    break;
+            }
+        }
+        break;
+
+    default:
+        echo "Invalid Action.";
+        break;
+}
