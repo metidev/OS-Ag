@@ -10,18 +10,17 @@ class FCFS
         $this->processes = $processes;
     }
 
-
     // run FCFS Algorithm
-    public function calculate(){
+    public function calculate()
+    {
         $currentTime = 0;
 
-        foreach($this->processes as $process){
+        foreach ($this->processes as $process) {
             $arrivalTime = $process['arrival_time'];
             $burstTime = $process['burst_time'];
 
-
             // If the next process hasn't arrived yet, we wait
-            if($currentTime < $arrivalTime){
+            if ($currentTime < $arrivalTime) {
                 $currentTime = $arrivalTime;
             }
 
@@ -42,9 +41,9 @@ class FCFS
             ];
 
             $currentTime = $endTime;
-
         }
     }
+
     public function getResults()
     {
         return $this->results;
